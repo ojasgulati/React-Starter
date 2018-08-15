@@ -5,13 +5,13 @@ const appInfo = {
     options: []
 }
 //Better solution replace it with ternary operator
-function showOptions(options) {
+/* function showOptions(options) {
     if (options.length > 0) {
         return "Here are your options"
     } else {
         return "No options available"
     }
-}
+} */
 
 const onFormSubmit = (e) => {
     e.preventDefault();
@@ -25,12 +25,12 @@ const onFormSubmit = (e) => {
     }
 }
 
-const onMakeDecision = ()=>{
+const onMakeDecision = () => {
     const randomNum = Math.floor(Math.random() * appInfo.options.length)
     alert(appInfo.options[randomNum])
 }
 
-const onRemoveAll = ()=>{
+const onRemoveAll = () => {
     appInfo.options = [];
     renderApp();
 }
@@ -50,11 +50,11 @@ function renderApp() {
             <button disabled={appInfo.options.length === 0} onClick={onMakeDecision}>What Should I do?</button>
             <button onClick={onRemoveAll}>Remove All</button>
             <ul>
-             {
-                 appInfo.options.map((option,index)=>{
-                     return <li key={index}>{option}</li>
-                 })
-             }
+                {appInfo
+                    .options
+                    .map((option, index) => {
+                        return <li key={index}>{option}</li>
+                    })}
             </ul>
             <form onSubmit={onFormSubmit}>
                 <input type="text" name="option"/>

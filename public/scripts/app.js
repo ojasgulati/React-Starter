@@ -1,94 +1,59 @@
 'use strict';
 
-console.log("App is running");
-var appInfo = {
-    title: 'Indecision App',
-    subtitle: 'Let the computer select the work',
-    options: []
-    //Better solution replace it with ternary operator
-};function showOptions(options) {
-    if (options.length > 0) {
-        return "Here are your options";
-    } else {
-        return "No options available";
+var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Person = function () {
+    function Person() {
+        var name = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'Anonymous';
+        var age = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+
+        _classCallCheck(this, Person);
+
+        this.name = name;
+        this.age = age;
     }
-}
 
-var onFormSubmit = function onFormSubmit(e) {
-    e.preventDefault();
-    var option = e.target.elements.option.value;
-    if (option) {
-        appInfo.options.push(option);
-        e.target.elements.option.value = '';
-        renderApp();
+    _createClass(Person, [{
+        key: 'getDescription',
+        value: function getDescription() {
+            return this.name + ' is ' + this.age + ' year(s) old.';
+        }
+    }]);
+
+    return Person;
+}();
+
+var Traveller = function (_Person) {
+    _inherits(Traveller, _Person);
+
+    function Traveller(name, age, homeLocation) {
+        _classCallCheck(this, Traveller);
+
+        var _this = _possibleConstructorReturn(this, (Traveller.__proto__ || Object.getPrototypeOf(Traveller)).call(this, name, age));
+
+        _this.homeLocation = homeLocation;
+        return _this;
     }
-};
 
-var onMakeDecision = function onMakeDecision() {
-    var randomNum = Math.floor(Math.random() * appInfo.options.length);
-    alert(appInfo.options[randomNum]);
-};
+    _createClass(Traveller, [{
+        key: 'getDescription',
+        value: function getDescription() {
+            var description = _get(Traveller.prototype.__proto__ || Object.getPrototypeOf(Traveller.prototype), 'getDescription', this).call(this);
+            if (!!this.homeLocation) description += 'I am visiting from ' + this.homeLocation;
+            return description;
+        }
+    }]);
 
-var onRemoveAll = function onRemoveAll() {
-    appInfo.options = [];
-    renderApp();
-};
+    return Traveller;
+}(Person);
 
-var appRoot = document.getElementById('app');
-
-renderApp();
-
-function renderApp() {
-    var template = React.createElement(
-        'div',
-        null,
-        React.createElement(
-            'h1',
-            null,
-            appInfo.title
-        ),
-        appInfo.subtitle && React.createElement(
-            'p',
-            null,
-            appInfo.subtitle
-        ),
-        React.createElement(
-            'p',
-            null,
-            appInfo.options.length > 0 ? "Here are your options" : "No options available"
-        ),
-        React.createElement(
-            'button',
-            { disabled: appInfo.options.length === 0, onClick: onMakeDecision },
-            'What Should I do?'
-        ),
-        React.createElement(
-            'button',
-            { onClick: onRemoveAll },
-            'Remove All'
-        ),
-        React.createElement(
-            'ul',
-            null,
-            appInfo.options.map(function (option, index) {
-                return React.createElement(
-                    'li',
-                    { key: index },
-                    option
-                );
-            })
-        ),
-        React.createElement(
-            'form',
-            { onSubmit: onFormSubmit },
-            React.createElement('input', { type: 'text', name: 'option' }),
-            React.createElement(
-                'button',
-                null,
-                'Add Option'
-            )
-        )
-    );
-
-    ReactDOM.render(template, appRoot);
-}
+var user1 = new Traveller('ojas', 20);
+console.log(user1.getDescription());
