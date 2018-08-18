@@ -1,27 +1,30 @@
-console.log('App is running');
+console.log("App is running");
 
-const app = {
-    title: "Toggle Visiblity",
-    hidenState: true,
-    button: "Show Details",
-    subTitle: "This is hidden text LOL"
-}
-
-var toggleHidden = () => {
-    app.hidenState = !app.hidenState;
-    renderApp();
-}
-
-var appRoot = document.getElementById('app');
-const renderApp = () => {
-    const template = (
-        <div>
-            <h1>{app.title}</h1>
-            <button onClick={toggleHidden}>{app.hidenState ? "Show Details":"Hide Details"}</button>
-            <p hidden={app.hidenState}>{app.subTitle}</p>
-        </div>
+class ToggleVisiblity extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isVisible: false
+    };
+    this.toggleVisiblity = this.toggleVisiblity.bind(this);
+  }
+  toggleVisiblity() {
+    this.setState(prevState => {
+      return { isVisible: !prevState.isVisible };
+    });
+  }
+  render() {
+    return (
+      <div>
+        <h1>Toggle Visiblity</h1>
+        <button onClick={this.toggleVisiblity}>
+          {app.hidenState ? "Show Details" : "Hide Details"}
+        </button>
+        {this.state.isVisible && <p>This is hidden text LOL</p>}
+      </div>
     );
-    ReactDOM.render(template, appRoot);
+  }
 }
 
-renderApp();
+var appRoot = document.getElementById("app");
+ReactDOM.render(<ToggleVisiblity />, appRoot);
