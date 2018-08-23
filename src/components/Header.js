@@ -2,9 +2,9 @@ import React from "react";
 
 const Header = props => {
   return (
-    <div>
-      <h1>{props.title || "Indecision App"}</h1>
-      {props.subtitle && <p>{props.subtitle}</p>}
+    <div className="header">
+      <h1 className="header__title">{props.title || "Indecision App"}</h1>
+      {props.subtitle && <p className="header__subtitle">{props.subtitle}</p>}
     </div>
   );
 };
